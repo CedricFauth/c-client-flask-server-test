@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve my api
+After=network.target
+
+[Service]
+User=cedric
+Group=www-data
+WorkingDirectory=/home/cedric/c-client-flask-server-test
+Environment="PATH=/home/cedric/c-client-flask-server-test/web_test_env/bin"
+ExecStart=/home/cedric/c-client-flask-server-test/web_test_env/bin/uwsgi --ini config/api.ini
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,9 @@
+server {
+    listen 80 default_server;
+    server_name 127.0.0.1;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/cedric/c-client-flask-server-test/src/server/api.sock;
+    }
+}
