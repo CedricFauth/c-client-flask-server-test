@@ -8,7 +8,7 @@ from markupsafe import escape
 
 app = Flask(__name__)
 
-@app.route('/<yourtext>')
+@app.route('/<yourtext>',methods=['GET','POST'])
 def hello_world(yourtext):
     return jsonify(req_text=escape(yourtext), req_method=request.method)
 
