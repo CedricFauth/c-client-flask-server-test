@@ -13,4 +13,4 @@ def hello_world(yourtext):
     return jsonify(req_text=escape(yourtext), req_method=request.method)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=False)
