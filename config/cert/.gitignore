@@ -1,0 +1,6 @@
+api.crt
+api.csr
+api.key
+myApiCA.key
+myApiCA.pem
+myApiCA.srl
