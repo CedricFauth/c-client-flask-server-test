@@ -3,7 +3,7 @@
 A Tutorial/Example of how you can write a web client in C that connects to any web server using an encrypted https connection. 
 Furthermore, we're going to write a Flask web server and deploy it using Nginx. We'll also generate self-signed certificates for test purposes.
 
-![alt text](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/test1.gif "Example Output")
+![alt text](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/test.gif "Example Output")
 
 ## Contents
 
