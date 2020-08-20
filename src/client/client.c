@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
     strcat(url,argv[1]);
     url[url_len] = '\0';
 
-    printf("request: \t%s\nresponse: \t", url);
+    printf("\n\rrequest: \t%s\n\rresponse: \t", url);
     
     CURL *curl = curl_easy_init();
     if(curl) {
