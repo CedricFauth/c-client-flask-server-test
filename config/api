@@ -1,6 +1,18 @@
 server {
     listen 80 default_server;
-    server_name 127.0.0.1;
+
+    server_name api.fritz.box;
+    return 301 https://api.fritz.box$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name api.fritz.box;
+
+    ssl_certificate /home/cedric/c-client-flask-server-test/config/cert/api.crt;
+    ssl_certificate_key /home/cedric/c-client-flask-server-test/config/cert/api.key;
+
+    ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
 
     location / {
         include uwsgi_params;
