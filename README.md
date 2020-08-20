@@ -15,7 +15,7 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 * [Write the web client](#Write-the-web-client)
   * [Curl and Libcurl](#Curl-and-Libcurl)
   * [Implement the client](#Implement-the-client)
-  * [What's next?](#What-to-do-next\?)
+ * [What's next?](#What-to-do-next)
   
 ## Build the web server
 ### Write a tiny web service with Flask
@@ -25,4 +25,4 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 ## Write the web client
 ### Curl and Libcurl
 ### Implement the client
-### What to do next\?
+## What to do next
