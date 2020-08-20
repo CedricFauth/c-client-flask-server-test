@@ -25,4 +25,4 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 ## Write the web client
 ### Curl and Libcurl
 ### Implement the client
-### #What to do next?
+### What to do next?
