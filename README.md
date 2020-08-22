@@ -5,9 +5,22 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 
 ![alt text](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/test.gif "Example Output")
 
+## Contents
+
+* [File Structure](#File-Structure)  
+* [Building a web server for testing the client](#Build-the-web-server) 
+(if you don't need a web server for testing you can jump to [the next step](#Write-the-web-client))
+  * [Write a tiny web service with the Python Flask library](#Write-a-tiny-web-service-using-Flask)
+  * [Deploy the service using uWSGI and Nginx](#Deploy-the-service-using-uWSGI-and-Nginx)
+  * [Create your own CA (Certificate Authority) and generate self-signed certificates for the https connection](#Create-your-own-CA-self-signed-certificates)
+* [Write the web client](#Write-the-web-client)
+  * [Curl and Libcurl](#Curl-and-Libcurl)
+  * [Implement the client](#Implement-the-client)
+ * [What's next?](#What-to-do-next)
+
 ## File Structure
 
-This is the project file structure that may help you to understand the config files:
+This is the file structure of the project which may help you to understand the config files:
 
 c-client-flask-server-test/ (root) <br />
    | - requirements.txt (all python3 pip requirements you need to install) <br />
@@ -46,20 +59,6 @@ c-client-flask-server-test/ (root) <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       | - wsgi.py <br />
       
-
-## Contents
-
-* [File Structure](#File-Structure)  
-* [Building a web server for testing the client](#Build-the-web-server) 
-(if you don't need a web server for testing you can jump to [the next step](#Write-the-web-client))
-  * [Write a tiny web service with the Python Flask library](#Write-a-tiny-web-service-using-Flask)
-  * [Deploy the service using uWSGI and Nginx](#Deploy-the-service-using-uWSGI-and-Nginx)
-  * [Create your own CA (Certificate Authority) and generate self-signed certificates for the https connection](#Create-your-own-CA-self-signed-certificates)
-* [Write the web client](#Write-the-web-client)
-  * [Curl and Libcurl](#Curl-and-Libcurl)
-  * [Implement the client](#Implement-the-client)
- * [What's next?](#What-to-do-next)
-  
 ## Build the web server
 ### Write a tiny web service using Flask
 ### Deploy the service using uWSGI and Nginx
