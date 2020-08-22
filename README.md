@@ -49,6 +49,7 @@ c-client-flask-server-test/ (root) <br />
 
 ## Contents
 
+* [File Structure](#File-Structure)  
 * [Building a web server for testing the client](#Build-the-web-server) 
 (if you don't need a web server for testing you can jump to [the next step](#Write-the-web-client))
   * [Write a tiny web service with the Python Flask library](#Write-a-tiny-web-service-using-Flask)
