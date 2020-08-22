@@ -71,11 +71,36 @@ c-client-flask-server-test/ (root) <br />
       
 ## Build the web server
 Since I decided to run the web service on a dedicated server I need to connect to the server via ssh. In my case:
-ssh cedric@api.fritz.box
+``` ssh cedric@api.fritz.box ```
 If you also use a dedicated server you need to download the repo on both machines.
 Now we can jump into the project folder:
+```
 cd c-client-flask-server-test
+```
 ### Write a tiny web service using Flask
+Let's start by writing the web service and test it over a normal web browser. Later we'll connect to it via the C client. My idea of the service is that we can request a certain URL-path and it responds with JSON giving us the request method (e.g. GET) and the specified request path. For example, if the server address is 'localhost' a request like http://localhost/hello-world should give the following response: 
+```
+{method: "GET", path: "hello-world"}
+```
+We're going to write this little echo-service in Python using a great library that becomes more and more popular - Flask. 
+First, we need to set up a virtual python environment. I'll do this using virtualenv.
+```
+python3 -m pip install virtualenv
+```
+If you are not familiar with pip and virtualenv check out this link: https://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/
+I called my virtual environment 'web_test_env'. Create an environment inside the project folder:
+```
+virtualenv web_test_env
+```
+Activate the environment:
+```
+source web_test_env/bin/activate
+```
+Then we can install all requirements that we're going to need (The requirements file is called 'requirements.txt'):
+```
+pip install -r requirements.txt
+```
+Inside src/server/testserver.py you can see the server's source code.
 ### Deploy the service using uWSGI and Nginx
 ### Create your own CA self-signed certificates
 
