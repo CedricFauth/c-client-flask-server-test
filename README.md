@@ -78,10 +78,7 @@ Now we can jump into the project folder:
 cd c-client-flask-server-test
 ```
 ### Write a tiny web service using Flask
-Let's start by writing the web service and test it over a normal web browser. Later we'll connect to it via the C client. My idea of the service is that we can request a certain URL-path and it responds with JSON giving us the request method (e.g. GET) and the specified request path. For example, if the server address is 'localhost' a request like http://localhost/hello-world should give the following response: 
-```
-{method: "GET", path: "hello-world"}
-```
+Let's start by writing the web service and test it over a normal web browser. Later we'll connect to it via the C client. My idea of the service is that we can request a certain URL-path and it responds with JSON giving us the request method (e.g. GET) and the specified request path. For example, if the server address is 'localhost' a request like http://localhost/hello-world should give the following response: ``` {method: "GET", path: "hello-world"} ```
 We're going to write this little echo-service in Python using a great library that becomes more and more popular - Flask. 
 First, we need to set up a virtual python environment. I'll do this using virtualenv.
 ```
