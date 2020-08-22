@@ -24,7 +24,7 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 * I'll show you how to create self-signed certificates. If you build a web service for production don't use this method. Instead use a CA like Let's Encrypt (it's also free).
 * This tutorial is based on the current repository. The file structure of the repo is explained below. <br />
 * There are 2 possible ways you can test out the code/build something upon it:
-  1. Downloading this repo and following the instructions/explanations below to run it (there are some files you need to create for the server such as certificates, otherwise it will not work). If you only want the client then you just need to compile the 'client.c' file.
+  1. Downloading this repo (using it as a template) and following the instructions/explanations below to run it (there are some files you need to create for the server such as certificates, otherwise it will not work). I'll explain how to configure everything by using this repo as some kind of template. If you only want the client then you just need to compile the 'client.c' file.
   2. Writing everything by yourself without downloading the repo (more work to do).
 * Before you start setting up the server (web service) please think where you want it to run. Later you will need the hostname of the computer where you want to run the server (for configurations and sending requests). If you want it to run on your local machine (same as client) your hostname will be localhost or 127.0.0.1 (ip address). If you want the server to run on a different machine than the client (but still in your home network) you need to use either that machines local ip address or the local hostname. I'll run the server on my homeserver whose hostname is 'api' or 'api.fritz.box' (fritz.box is the local domain of my router which will forward the requests to the api homeserver). 
 
@@ -70,6 +70,11 @@ c-client-flask-server-test/ (root) <br />
       | - wsgi.py <br />
       
 ## Build the web server
+Since I decided to run the web service on a dedicated server I need to connect to the server via ssh. In my case:
+ssh cedric@api.fritz.box
+If you also use a dedicated server you need to download the repo on both machines.
+Now we can jump into the project folder:
+cd c-client-flask-server-test
 ### Write a tiny web service using Flask
 ### Deploy the service using uWSGI and Nginx
 ### Create your own CA self-signed certificates
