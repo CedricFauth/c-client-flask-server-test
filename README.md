@@ -5,6 +5,48 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 
 ![alt text](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/test.gif "Example Output")
 
+## File Structure
+
+This is the project file structure that may help you to understand the config files:
+
+c-client-flask-server-test/ (root) <br />
+   | - requirements.txt (all python3 pip requirements you need to install) <br />
+   | - config/ (config files) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+      | - api (nginx backup file) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+      | - api.ini (uwsgi config file) <br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+      | - api.service (uwsgi service backup file) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+      | - cert/ (the tutorial shows how to generate all these files) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | - api.crt <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | - api.csr <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | - api.key <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | - myApiCA.key <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | - myApiCA.pem <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | - myApiCA.srl <br />
+   | - src/ (source code) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+   | - client/ <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      | - client.c <br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+   | - server/ <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      | - \_\_init\_\_.py <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      | - testserver.py <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      | - wsgi.py <br />
+      
+
 ## Contents
 
 * [Building a web server for testing the client](#Build-the-web-server) 
