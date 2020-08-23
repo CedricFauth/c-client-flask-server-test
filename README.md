@@ -138,6 +138,11 @@ def function_for_root_route():
     return "blablabla"
 
 ``` 
+So we are done with the server, right? Not really. There are some problems we need to look at. If you just need this server for testing purposes you can skip the following steps, but at the moment our server is highly vulnerable and unstable:
+1. The built-in Flask server is slow and scales up poorly since it's not capable of handling multiple connections at once. If we aim to use it in a real-world application we cannot use the Flask server.
+2. The connection is not secure. We are using the HTTP protocol which does not encrypt our requests and responses. Today most services even if they don't deal with private data use an encrypted TLS connection via the HTTPS protocol (as long as we're using our service in a local network that's not a huge problem but it still can be a security risk).
+
+In the next 2 steps, we will address these problems.
 ### Deploy the service using uWSGI and Nginx
 ### Create your own CA self-signed certificates
 
