@@ -225,7 +225,7 @@ sudo systemctl restart nginx
 ```
 Create a new file /etc/nginx/sites-available/api with the following content:
 ```
- server {
+server {
     listen 80; # the standard http port
     server_name <your_domain>; # change that
 
