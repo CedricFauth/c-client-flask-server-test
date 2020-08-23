@@ -144,6 +144,11 @@ So we are done with the server, right? Not really. There are some problems we ne
 
 In the next 2 steps, we will address these problems.
 ### Deploy the service using uWSGI and Nginx
+This tutorial is not about all the details involving uWSGI and NGINX, but I'll give a short overview of these 2 things.
+Nginx is a web server that is next to Apache2 the biggest open source web server in the world. It offers increased security, better performance, encrypted connections, and much more. So Nginx is a great choice, right?
+
+Well, there is a downside. In our case, the problem is Nginx cannot directly talk to a Flask application. So we will use Nginx not as a pure web server but as a [reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy). It will forward all connections to an application server called uWSGI that can talk to our Flask app over the WSGI protocol. This approach is widely used and gives extra security because of multiple services having to talk to each other.
+uWSGI can also be used as a standalone solution but Nginx gives us more possibilities in the future and is very popular so it won't do any harm learning about it.
 ### Create your own CA self-signed certificates
 
 ## Write the web client
