@@ -13,7 +13,7 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 (if you don't need a web server for testing you can jump to [the next step](#Write-the-web-client))
   * [Write a tiny web service with the Python Flask library](#Write-a-tiny-web-service-using-Flask)
   * [Deploy the service using uWSGI and Nginx](#Deploy-the-service-using-uWSGI-and-Nginx)
-  * [Create your own CA (Certificate Authority) and generate self-signed certificates for the https connection](#Create-your-own-CA-self-signed-certificates)
+  * [Create your own CA (Certificate Authority) and generate self-signed certificates for the https connection](#Create-own-CA-with-self-signed-certificates)
 * [Write the web client](#Write-the-web-client)
   * [Curl and Libcurl](#Curl-and-Libcurl)
   * [Implement the client](#Implement-the-client)
@@ -243,7 +243,7 @@ sudo systemctl restart nginx
 ```
 When requesting `http://<yourhostname>/<route>`you should get the same output as before using the Flask server (but without specifying the port number). If you cannot reach your side check the status of the nginx server and see the log: `sudo less /var/log/nginx/error.log`
 
-### Create your own CA self-signed certificates
+### Create own CA with self-signed certificates
 
 ## Write the web client
 ### Curl and Libcurl
