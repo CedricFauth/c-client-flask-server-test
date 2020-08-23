@@ -98,7 +98,8 @@ Then we can install all requirements that we're going to need (The requirements 
 ```
 pip install -r requirements.txt
 ```
-The server's source code is located here: src/sever/testserver.py
+#### Flask Server Source Code
+The server's source code is located here: **src/sever/testserver.py**
 Let's have a look at the imports:
 ```python
 from flask import Flask
