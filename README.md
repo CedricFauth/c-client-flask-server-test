@@ -97,7 +97,27 @@ Then we can install all requirements that we're going to need (The requirements 
 ```
 pip install -r requirements.txt
 ```
-Inside src/server/testserver.py you can see the server's source code.
+The server's source code is located here: src/sever/testserver.py
+Let's have a look at the imports:
+```
+from flask import Flask
+from flask import request
+from flask import jsonify
+from markupsafe import escape
+```
+```Flask``` is the class that will help us creating the web server. With ```request``` we can receive information about the current request which is made by someone connecting to our service. ```Jsonify``` helps us converting text or datastructures to JSON. JSON is a standard for exchanging information through the web.
+```Escape``` is just a tool that formats any text into html readable text. We're just using this to prevent bugs.
+```
+app = Flask(__name__)
+
+@app.route('/<yourtext>',methods=['GET','POST'])
+def hello_world(yourtext):
+    return jsonify(req_text=escape(yourtext), req_method=request.method)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',debug=False)
+```
+
 ### Deploy the service using uWSGI and Nginx
 ### Create your own CA self-signed certificates
 
