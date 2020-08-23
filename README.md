@@ -149,6 +149,67 @@ Nginx is a web server that is next to Apache2 the biggest open source web server
 
 Well, there is a downside. In our case, the problem is Nginx cannot directly talk to a Flask application. So we will use Nginx not as a pure web server but as a [reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy). It will forward all connections to an application server called uWSGI that can talk to our Flask app over the WSGI protocol. This approach is widely used and gives extra security because of multiple services having to talk to each other.
 uWSGI can also be used as a standalone solution but Nginx gives us more possibilities in the future and is very popular so it won't do any harm learning about it.
+
+#### uWSGI
+The first step is to set up and configure the uWSGI server. The entry point for uWSGI is defined in **src/server/wsgi.py**:
+```python
+from testserver import app
+
+if __name__ == '__main__':
+	 app.run()
+ ```
+It's like a second main function that uWSGI uses to run the code in `testserver.py`.
+
+Next, we test our server now by running the following command in our root directory:
+```
+uwsgi --socket 0.0.0.0:5000 --protocol=http --chdir src/server/ -w wsgi:app
+```
+Our service should be available under `http://<yourserveraddress>:5000/<route>` but now running on uWSGI instead of the built-in Flask server.
+
+Now we can create a config file that contains all parameters instead of using the command above. My config is in config/api.ini:
+```
+[uwsgi]
+chdir = /home/cedric/c-client-flask-server-test/src/server/ # file to the wsgi.py entrypoint file
+wsgi-file = wsgi.py # the file name
+callable = app # the name of the Flask app variable
+master = true
+processes = 5 # multiple workers for better scale
+#http = 0.0.0.0:5000 # we'll not use http anymore instead we use a socket
+socket = api.sock 
+chmod-socket = 660
+vacuum = true
+ die-on-term = true
+ stats=/tmp/stats.sock # here we can read our stats in realtime
+```
+Instead of exposing uWSGI over HTTP, we want to connect it with an Nginx reverse proxy, which handles all of the outgoing and incoming connections. Therefore we use a Linux Socket `api.sock` that can be shared between our server and the Nginx reverse proxy.
+To start the uWSGI app let's create a systemd service file. That allows Linux to automatically run the app. The file needs to be created in **/etc/systemd/system/**. You can find my configuration in **config/api.service**:
+```
+[Unit]
+Description=uWSGI instance to serve my api
+After=network.target
+[Service]
+User=cedric # owner of all files
+Group=www-data # so that nginx can access the socket
+WorkingDirectory=/home/cedric/c-client-flask-server-test # root dir
+Environment="PATH=/home/cedric/c-client-flask-server-test/web_test_env/bin" # where uwsgi is installed (virtualenv)
+ExecStart=/home/cedric/c-client-flask-server-test/web_test_env/bin/uwsgi --ini config/api.ini # command we want to execute with api.ini file
+[Install]
+WantedBy=multi-user.target
+``` 
+The comments above explain the most important options. If you want to know more you can look up all the other options. <br />
+If you want to use this service file you need to change at least the `User` option and copy the file to the right location:
+```
+sudo cp config/api.service /etc/systemd/system/api.service
+```
+Now start the service and enable (start on boot) it:
+```
+sudo systemctl start api.service
+sudo systemctl enable api.service
+```
+With `sudo systemctl status api.service` we can see whether the start was successful or not.
+
+#### Nginx
+
 ### Create your own CA self-signed certificates
 
 ## Write the web client
