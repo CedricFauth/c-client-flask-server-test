@@ -3,7 +3,7 @@
 A Tutorial/Example of how you can write a web client in C that connects to any web server using an encrypted https connection. 
 Furthermore, we're going to write a Flask web server and deploy it using Nginx. We'll also generate self-signed certificates for test purposes.
 
-![alt text](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/test.gif "Example Output")
+![](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/test.gif "")
 
 ## Contents
 * [Important Notes](#Important-Notes)
@@ -120,8 +120,10 @@ if __name__ == '__main__':
 ```
 We create our Flask instance and call it app. This object represents the service. Next, we define our routes so what happens if we call something like ```http://<domain>/some-path```. Since we want to allow every route we use a placeholder and call it ```<yourtext>```\*. A placeholder is like a variable that contains a requested route. Next, we define a function that gets called when a route is accessed. Every time someone accesses our service the ```def hello_world(yourtext)``` method gets called where ```yourtext``` is the route that got called (same name as the placeholder). ```hello_world``` just returns a JSON text with the request method of the caller and the route that was requested. Since hello_world is a route function (we annotated it with @app.route(...)) every return will not just end the function but will send the returned text as a response back to the caller (client, web browser, etc.). <br />
 The last two lines are used for running the service directly. Flask is a decent web server on its own so we can test our program by running: 
-```python testserver.py```
-Note that it will warn you that Flask isn't a production server but for the first test, it's sufficient. You can access the web service now by typing ```http://<yourserveraddress>:5000/<route>``` in your browser. In my case ```http://api.fritz.box:5000/this-is-a-route```. <br />
+```python src/server/testserver.py```
+![](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/console_flask.png "")
+Note that it will warn you that Flask isn't a production server but for the first test, it's sufficient. You can access the web service now by typing ```http://<yourserveraddress>:5000/<route>``` in your browser. In my case ```http://api.fritz.box:5000/this-is-a-route```. The default port to access a Flask server is 5000 so it's important to specify the port in the URL with ```:5000```. Later we will use the default http \[https] port 80 \[443]. If you cannot reach the server you need to make sure that your firewall allows port 5000. You can see all allowed ports with ```sudo ufw status```. To allow port 5000 enter ```sudo ufw allow 5000```.
+![](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/browser_flask.png "")
 \*Note: We have not defined what happens if we call the root route which is just ```/```. In this case the server will respond with an error. If you want to define a root route you need to do add a second route function like:
 ```
 @app.route('/')
