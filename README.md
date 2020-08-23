@@ -335,6 +335,8 @@ curl https://<your-hostname>/<route> --cacert myApiCA.pem
 ```
 This time, everything went fine and we got a response: `{"req_method":"GET","req_text":"<route>"}`.
 
+![](https://user-images.githubusercontent.com/25117793/90991517-0c319b00-e5aa-11ea-9459-12daa420fbd3.png)
+
 As you see cURL is a great and easy tool but how can we write our own client in C. There are a few libraries out there that allow us to use HTTPS like OpenSSL. The downside is OpenSSL can be really complicated because it's a low-level library that needs a lot of boilerplate code in order to work. Luckily there is a great alternative - `libcurl`! It's a programming API that works the same as cURL. Libcurl can also get complex but in this tutorial, we'll just use the single-threaded and synchronous `easy` interface.
 
 ### Implement the client
