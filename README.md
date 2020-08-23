@@ -245,6 +245,73 @@ When requesting `http://<yourhostname>/<route>`you should get the same output as
 
 ### Create own CA with self-signed certificates
 
+The server setup is now almost complete. The last step is to establish a secure HTTPS connection. Since we're running the server on our local network we have no public domain name and cannot get a TLS certificate from something like Let's Encrypt but we can self-generate our certificate. <br />
+The problem is that web browsers and also our client will try to verify our certificate which will fail. 
+Normally certificates get created by an independent CA (certificate authority) and are signed with a private key no one knows. After that, the certificate gets issued to the server that requested it. A CA also has a root certificate that can be used to verify every certificate issued by this CA. The root certificate is shared across all devices and browsers. If an HTTPS connection gets established the server's certificate gets validated by the client using the root certificate of an official CA. 
+
+Our problem is that self-generated certificates are not signed by an official CA, so our connection cannot be trusted. The solution will be to create our own local CA and give our client the root certificate. After that, we can issue a certificate to our server using our CA's private key. This certificate can now be validated by the client since it has the root certificate.
+
+We will store all files related to certificates in **config/cert/** (not sufficient for real production). <br />
+First of all, we create a private key:
+```
+sudo openssl genrsa -des3 -out myApiCA.key 2048
+```
+Then the root certificate:
+```
+sudo openssl req -x509 -new -nodes -key myApiCA.key -sha256 -days 365 -out myApiCA.pem
+```
+The CA is 'ready' now. Next, we create a private key for our service:
+```
+sudo openssl genrsa -out <your-hostname>.key 2048
+```
+Now we need to create a CSR which is a certificate signing request. Make sure that the Common Name (CN) is <your-hostname>.
+
+```
+sudo openssl req -new -key <your-hostname>.key -out <your-hostname>.csr
+```
+The CA can issue a server certificate by using the CSR:
+```
+sudo openssl x509 -req -in mydomain.com.csr -CA myApiCA.pem -CAkey myApiCA.key -CAcreateserial -out <your-hostname>.crt -days 365 -sha256
+```
+The output is <your-hostname>.crt which is the certificate we can use for the Nginx server. We change the Nginx api file to the following:
+
+```
+server {
+	listen 80 default_server; 
+	server_name <your-hostname>; # change
+	return 301 https://<your-hostname>$request_uri; #change
+}
+	 
+server {
+	listen 443 ssl http2;
+	server_name <your-hostname>; # change
+ 
+	ssl_certificate /home/cedric/c-client-flask-server-test/config/cert/api.crt; # the api certificate
+	ssl_certificate_key /home/cedric/c-client-flask-server-test/config/cert/api.key; # the api private key
+	ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
+	 
+	location / {
+		include uwsgi_params;
+		uwsgi_pass unix:/home/cedric/c-client-flask-server-test/src/server/api.sock;
+	}
+}
+```
+We do multiple things here. The first `server` block redirects all HTTP traffic to HTTPS. The second `server` block is the HTTPS configuration and forwards the traffic to our socket. You may need to change the server names and the certificate and certificate-key names.
+
+Let's restart the server:
+```
+sudo systemctl restart nginx
+```
+If we now connect to our server it will force us using HTTPS but still gives an error that it cannot check the certificate. This is normal because our browser does not know about our CA but we can install it.
+
+Firefox is a great browser to test if everything works fine. [Here is a quick tutorial on how to install a root certificate](https://portswigger.net/support/installing-burp-suites-ca-certificate-in-firefox). 
+
+`http://<your-domain>/<route>` should be redirected to `https://<your-domain>/<route>` and should also be secure.
+Chrome makes more validation tests so even with the root certificate, it will give us an error but that's not a problem since we don't want to use a browser but a c client instead. 
+
+If Firefox says our connection is secure after installing our root certificate we know everything went fine (you can ignore if it says it does not know the CA).
+Now we have a quite secure server for testing clients using HTTPS on our local network.
+
 ## Write the web client
 ### Curl and Libcurl
 ### Implement the client
