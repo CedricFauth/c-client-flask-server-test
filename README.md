@@ -313,6 +313,36 @@ If Firefox says our connection is secure after installing our root certificate w
 Now we have a quite secure server for testing clients using HTTPS on our local network.
 
 ## Write the web client
+
+Finally, it's time to think about the client!
+
 ### Curl and Libcurl
+
+Maybe you used cURL before. It's pre-installed on most Linux distros today. cURL implements many different protocols such as FTPS, HTTP, HTTPS, IMAPS, etc. It can be used to make requests or transfer data. If you want to know everything about it see [here](https://curl.haxx.se/). 
+We can also make a cURL request to our service:
+```
+curl http://<your-hostname>/<route>
+```
+This will result in a `301 Moved Permanently` response because we'll not be redirected to https automatically.
+
+So what happens if we try is using https:
+```
+curl http://<your-hostname>/<route>
+```
+Now we're getting something like `curl: (60) SSL certificate problem: unable to get local issuer certificate` because cURL doesn't know our CA certificate. We can add the `-k` option so that the certificate won't be checked but that is not what we want since we already have our own certificate. So let's fix that:
+```
+curl https://<your-hostname>/<route> --cacert myApiCA.pem
+```
+This time, everything went fine and we got a response: `{"req_method":"GET","req_text":"<route>"}`.
+
+As you see cURL is a great and easy tool but how can we write our own client in C. There are a few libraries out there that allow us to use HTTPS like OpenSSL. The downside is OpenSSL can be really complicated because it's a low-level library that needs a lot of boilerplate code in order to work. Luckily there is a great alternative - `libcurl`! It's a programming API that works the same as cURL. Libcurl can also get complex but in this tutorial, we'll just use the single-threaded and synchronous `easy` interface.
+
 ### Implement the client
+
+We can install libcurl using:
+```
+sudo apt install libcurl4-openssl-dev
+```
+
+
 ## What to do next
