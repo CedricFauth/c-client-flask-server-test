@@ -207,8 +207,41 @@ sudo systemctl start api.service
 sudo systemctl enable api.service
 ```
 With `sudo systemctl status api.service` we can see whether the start was successful or not.
+**Note that we cannot reach our server right now because it's no longer exposed to HTTP. The next step will change that.** 
 
 #### Nginx
+The uWSGI server is now doing nothing because the socket it listens to is empty. We're going to set up Nginx to forward all requests to the socket from where our application server can handle them.
+First, install Nginx and setup firewall rules: 
+```
+sudo apt-get install nginx 
+sudo ufw delete allow 5000
+sudo ufw allow 'Nginx Full'
+```
+Now you should see something when requesting `http://<yourhostname>/`.
+Then disable the default site:
+```
+sudo rm /etc/nginx/sites-enabled/default
+sudo systemctl restart nginx
+```
+Create a new file /etc/nginx/sites-available/api with the following content:
+```
+ server {
+    listen 80; # the standard http port
+    server_name <your_domain>; # change that
+
+    location / {
+	include uwsgi_params;
+	uwsgi_pass unix:/home/cedric/c-client-flask-server-test/src/server/api.sock;
+    }
+}
+```
+When requesting a `location` the request will be forwarded to the socket where uWSGI takes over. 
+Now we create a soft link from sites-available to sites-enabled:
+```
+sudo ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled
+sudo systemctl restart nginx 
+```
+When requesting `http://<yourhostname>/<route>`you should get the same output as before using the Flask server (but without specifying the port number). If you cannot reach your side check the status of the nginx server and see the log: `sudo less /var/log/nginx/error.log`
 
 ### Create your own CA self-signed certificates
 
