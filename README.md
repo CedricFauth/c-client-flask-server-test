@@ -78,7 +78,7 @@ Now we can jump into the project folder:
 cd c-client-flask-server-test
 ```
 ### Write a tiny web service using Flask
-Let's start by writing the web service and test it over a normal web browser. Later we'll connect to it via the C client. My idea of the service is that we can request a certain URL-path and it responds with JSON giving us the request method (e.g. GET) and the specified request path. For example, if the server address is 'localhost' a request like http://localhost/hello-world should give the following response: ``` {method: "GET", path: "hello-world"} ```
+Let's start by writing the web service and test it with a normal web browser. Later we'll connect to it via the C client. My idea of the service is that we can request a certain route and it responds with JSON giving us the request method (e.g. GET) and the specified request route. For example, if the server address is 'localhost' a request like http://localhost/hello-world (route is '/hello-world') should give the following response: ``` {method: "GET", path: "hello-world"} ```
 We're going to write this little echo-service in Python using a great library that becomes more and more popular - Flask. 
 First, we need to set up a virtual python environment. I'll do this using virtualenv.
 ```
@@ -105,19 +105,28 @@ from flask import request
 from flask import jsonify
 from markupsafe import escape
 ```
-```Flask``` is the class that will help us creating the web server. With ```request``` we can receive information about the current request which is made by someone connecting to our service. ```Jsonify``` helps us converting text or datastructures to JSON. JSON is a standard for exchanging information through the web.
+```Flask``` is the class that will help us creating the web server. It is a micro web framework written in Python. With ```request``` we can receive information about the current request which is made by someone connecting to our service. ```Jsonify``` helps us converting text or datastructures to JSON. JSON is a standard for exchanging information through the web.
 ```Escape``` is just a tool that formats any text into html readable text. We're just using this to prevent bugs.
+Next we take a look at the actual code (it's pretty simple):
 ```
 app = Flask(__name__)
 
-@app.route('/<yourtext>',methods=['GET','POST'])
+@app.route('/<yourtext>',methods=['GET','POST']) # defining routes
 def hello_world(yourtext):
     return jsonify(req_text=escape(yourtext), req_method=request.method)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=False)
 ```
+We create our Flask instance and call it app. This object represents the service. Next, we define our routes. Since we want to allow every route we use a placeholder ```<yourtext>```. Next, we define a function that gets called for each route. Every time someone accesses our service the ```hello_world(yourtext)``` method gets called where ```yourtext``` is the route that got called (for example by your web browser). ```hello_world``` just returns a JSON text with the request method of the caller and the route that was requested. Since hello_world is a route function (we annotated it with @app.route(...)) every return will not just end the function but will send the returned text as a response back to the caller (client, web browser, etc.). <br />
+The last two lines are used for running the service directly. Flask is a decent web server on its own so we can test our program by running ```python testserver.py```. Note that it will warn you that Flask isn't a production server but for the first test, it's sufficient. You can access the web service now by typing ```http://<yourserveraddress>:5000/<route>``` in your browser. In my case ```http://api.fritz.box:5000/this-is-a-route```. <br />
+Note: We have not defined what happens if we call the root route which is just ```/```. In this case the server will respond with an error. If you want to define a root route you need to do add a second route function like:
+```
+@app.route('/')
+def function_for_root_route():
+    return "blablabla"
 
+``` 
 ### Deploy the service using uWSGI and Nginx
 ### Create your own CA self-signed certificates
 
