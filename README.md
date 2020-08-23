@@ -5,6 +5,8 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 
 ![](https://github.com/CedricFauth/c-client-flask-server-test/blob/master/images/test.gif "")
 
+
+
 ## Contents
 * [Important Notes](#Important-Notes)
 * [File Structure](#File-Structure)  
