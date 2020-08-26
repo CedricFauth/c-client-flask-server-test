@@ -406,6 +406,6 @@ curl_global_cleanup();
 free(url);
 ```
 
-Now you should have a basic foundation on how to implement your own client-server application with C and Python. Enjoy!
+Now you should have a foundation of how to implement your own client-server application using C and Python. Enjoy!
 
 ## What to do next
