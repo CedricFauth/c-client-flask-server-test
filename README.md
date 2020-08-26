@@ -397,7 +397,7 @@ Then, some important options are made. We set the request URL so curl knows the 
 
 Now it's time to send the request. `res = curl_easy_perform(curl);` will perform our request and set res according to the response. After that, we can check the result and output corresponding errors with `curl_easy_strerror(res)`.
 
-Curl will write the response directly to `stdout`, so we don't need to print anything now. Most of the time we want to store the output instead of printing it so we need to use other options like [CURLcode curl_easy_setopt(CURL \*handle, CURLOPT_WRITEFUNCTION, write_callback)](https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html).
+Curl will write the response directly to `stdout`, so we don't need to print anything now. Most of the time we want to store the output instead of printing it so we need to use other options like [CURLOPT_WRITEFUNCTION](https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html).
 
 Finally don't forget to free allocated memory:
 ```
