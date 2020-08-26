@@ -18,7 +18,6 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 * [Write the web client](#Write-the-web-client)
   * [Curl and Libcurl](#Curl-and-Libcurl)
   * [Implement the client](#Implement-the-client)
- * [What's next?](#What-to-do-next)
 
 ## Important Notes
 
@@ -409,6 +408,5 @@ To compile the code run `gcc src/client/client.c -o client -lcurl`. Now we can r
 
 ![](https://user-images.githubusercontent.com/25117793/91330669-0dd9a980-e7ca-11ea-8a16-2491a7153603.png)
 
-Now you should have a foundation of how to implement your own client-server application using C and Python. Enjoy!
+**Now you should have a foundation of how to implement your own client-server application using C and Python. Enjoy!**
 
-## What to do next
