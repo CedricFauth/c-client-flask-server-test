@@ -346,6 +346,66 @@ We can install libcurl using:
 ```
 sudo apt install libcurl4-openssl-dev
 ```
+In this example, I just want to send an arbitrary GET request to the server and display the response: `./client <the-path>`
+We have to make some imports first.
+``` c
+#include <curl/curl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+```
+Let's define the domain/hostname of our service we want to talk to. In my case, that's `https://api.fritz.box`.
+``` c
+const char domain[] = "https://api.fritz.box/";
+```
+Now, we can enter the main method `int main(int argc, char *argv[]){`:
+``` c
+if(argc != 2) return 1; // check if argument count matches
+unsigned url_len = strlen(domain) + strlen(argv[1]); // get full length of url
+char *url; 
 
+if(!(url = malloc(url_len + 1))) return 1; // allocate memory for the full url
+strcpy(url,domain); // copy domain/hostname to url
+strcat(url,argv[1]); // concat the path to the url
+url[url_len] = '\0'; // termination character
+
+printf("\n\rrequest: \t%s\n\rresponse: \t", url); // print the request
+```
+After the request is printed out we can send a request and wait for the response:
+``` c
+curl_global_init(CURL_GLOBAL_ALL);	 
+CURL *curl = curl_easy_init();
+
+if(curl) { // always check for NULL
+	CURLcode res;
+	curl_easy_setopt(curl, CURLOPT_URL, url);
+	curl_easy_setopt(curl, CURLOPT_CAINFO, "/home/progfix/myApiCA.pem");
+ 
+	res = curl_easy_perform(curl);
+	if(res != CURLE_OK)
+	fprintf(stderr, "error: %s\n", curl_easy_strerror(res));
+	 
+	curl_easy_cleanup(curl);
+}
+curl_global_cleanup();
+free(url);
+```
+`curl_global_init` and `curl_easy_init();` will initialize a new curl context. You always need to call these methods before using the libcurl easy-interface. 
+`CURLcode res` will be our response code which is `CURLE_OK`
+ or 0 if the request was successful.
+Then, some important options are made. We set the request URL so curl knows the recipient. The next option is really important. Since we use self-signed certificates we have to say the library where the root cert is located so that curl can validate our service. Otherwise, we'll get an error. With `CURLOPT_CAINFO` we set this option. If you use a certificate that's issued by an official CA you don't need this option. Curl will find the CA's root certificate on your computer like any browser does.
+
+Now it's time to send the request. `res = curl_easy_perform(curl);` will perform our request and set res according to the response. After that, we can check the result and output corresponding errors with `curl_easy_strerror(res)`.
+
+Curl will write the response directly to `stdout`, so we don't need to print anything now. Most of the time we want to store the output instead of printing it so we need to use other options like [CURLcode curl_easy_setopt(CURL \*handle, CURLOPT_WRITEFUNCTION, write_callback)](https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html).
+
+Finally don't forget to free allocated memory:
+```
+curl_easy_cleanup(curl);
+curl_global_cleanup();
+free(url);
+```
+
+Now you should have a basic foundation on how to implement your own client-server application with C and Python. Enjoy!
 
 ## What to do next
