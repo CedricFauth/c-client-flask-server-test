@@ -5,6 +5,7 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 
 ![test](https://user-images.githubusercontent.com/25117793/90982022-bdaddd80-e564-11ea-8b88-c5b13c692214.gif)
 
+**The first part of the tutorial (setting up the server) can be quite complicated if you don't know what you're doing. If you are just interested in making the client you can skip the first part and use a service like [Random API](www.random.org) to make requests with the client.** 
 
 ## Contents
 * [Important Notes](#Important-Notes)
@@ -22,7 +23,7 @@ Furthermore, we're going to write a Flask web server and deploy it using Nginx. 
 ## Important Notes
 
 * I'm using `Linux (Ubuntu 18.04)` to run the server and the client.
-* I'll show you how to create self-signed certificates. If you build a web service for production don't use this method. Instead use a CA like Let's Encrypt (it's also free).
+* **I'll show you how to create self-signed certificates. If you build a web service for production don't use this method.** Instead use a CA like Let's Encrypt (it's also free).
 * This tutorial is based on the current repository. The file structure of the repo is explained below. <br />
 * **There are 2 possible ways you can test out the code/build something upon it:**
   1. Downloading this repo (using it as a template) and following the instructions/explanations below to run it (there are some files you need to create for the server such as certificates, otherwise it will not work). I'll explain how to configure everything by using this repo as some kind of template. If you only want the client then you just need to compile the `client.c` file.
