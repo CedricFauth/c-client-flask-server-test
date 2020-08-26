@@ -405,6 +405,9 @@ curl_easy_cleanup(curl);
 curl_global_cleanup();
 free(url);
 ```
+To compile the code run `gcc src/client/client.c -o client -lcurl`. Now we can run the client: `./client hello-world!`.
+
+![](https://user-images.githubusercontent.com/25117793/91330669-0dd9a980-e7ca-11ea-8a16-2491a7153603.png)
 
 Now you should have a foundation of how to implement your own client-server application using C and Python. Enjoy!
 
