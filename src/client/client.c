@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
     
     CURL *curl = curl_easy_init();
     if(curl) {
-        char errbuf[512];
+        char errbuf[CURL_ERROR_SIZE];
         
         CURLcode res;
         curl_easy_setopt(curl, CURLOPT_URL, url);
